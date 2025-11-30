@@ -1,14 +1,8 @@
 import { PartialType } from '@nestjs/swagger';
-import { IsArray, IsEmail, IsNumber, IsOptional, IsString } from 'class-validator';
-import { Type } from 'class-transformer';
-import { CreateRevendaDto } from './create-revenda.dto';
+import { CreateClienteDto } from './create-cliente.dto';
+import { IsOptional, IsString, IsEmail, IsDateString, IsArray } from 'class-validator';
 
-export class UpdateRevendaDto extends PartialType(CreateRevendaDto) {
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  municipiosAtuacao?: string[];
-
+export class UpdateClienteDto extends PartialType(CreateClienteDto) {
   @IsOptional()
   @IsString()
   nome?: string;
@@ -20,6 +14,10 @@ export class UpdateRevendaDto extends PartialType(CreateRevendaDto) {
   @IsOptional()
   @IsString()
   inscricaoEstadual?: string;
+
+  @IsOptional()
+  @IsDateString()
+  dataCadastro?: Date;
 
   @IsOptional()
   @IsEmail()
@@ -42,12 +40,7 @@ export class UpdateRevendaDto extends PartialType(CreateRevendaDto) {
   enderecoCompleto?: string;
 
   @IsOptional()
-  @IsNumber()
-  @Type(() => Number)
-  aliquotaDesconto?: number;
-
-  @IsOptional()
-  @IsNumber()
-  @Type(() => Number)
-  comissao?: number;
+  @IsArray()
+  @IsString({ each: true })
+  revendaIds?: string[];
 }

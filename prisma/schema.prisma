@@ -20,9 +20,6 @@ model Revenda {
   inscricaoEstadual String?
   dataCadastro      DateTime @default(now())
 
-  markupPadrao      Float
-  descontoMaximo    Float
-
   emailPrincipal    String
   emailContato      String?
   telefoneFixo      String?
@@ -36,6 +33,27 @@ model Revenda {
   municipios        MunicipioAtuacao[]
 
   usuarios          User[]
+  clientes          Cliente[]
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Cliente {
+  id                String   @id @default(cuid())
+  nome              String
+  cnpjCpf           String
+  inscricaoEstadual String?
+  dataCadastro      DateTime @default(now())
+
+  emailPrincipal    String
+  emailContato      String?
+  telefoneFixo      String?
+  telefoneContato   String?
+
+  enderecoCompleto  String
+
+  revendas          Revenda[]
 
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt

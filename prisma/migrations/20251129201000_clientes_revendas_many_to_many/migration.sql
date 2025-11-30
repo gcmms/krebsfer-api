@@ -1,0 +1,2 @@
+-- Placeholder migration kept for history compatibility.
+-- No-op: relationship implemented in 20251129201200_clientes_revendas_many_to_many.

@@ -4,13 +4,11 @@ import {
   IsDateString,
   IsEmail,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 
-export class CreateRevendaDto {
+export class CreateClienteDto {
   @IsString()
   @IsNotEmpty()
   nome: string;
@@ -46,18 +44,8 @@ export class CreateRevendaDto {
   @IsNotEmpty()
   enderecoCompleto: string;
 
-  @IsOptional()
-  @IsNumber()
-  @Type(() => Number)
-  aliquotaDesconto?: number;
-
-  @IsOptional()
-  @IsNumber()
-  @Type(() => Number)
-  comissao?: number;
-
   @IsArray()
   @ArrayNotEmpty()
   @IsString({ each: true })
-  municipiosAtuacao: string[];
+  revendaIds: string[];
 }
