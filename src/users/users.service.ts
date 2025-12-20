@@ -152,6 +152,10 @@ export class UsersService {
       throw new ForbiddenException('Somente ADMIN pode remover usuários');
     }
 
+    if (requester.sub === id) {
+      throw new ForbiddenException('Você não pode remover o próprio usuário');
+    }
+
     const exists = await this.prisma.user.findUnique({ where: { id } });
     if (!exists) {
       throw new NotFoundException('Usuário não encontrado');
