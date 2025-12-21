@@ -9,6 +9,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
@@ -163,6 +164,32 @@ export class UsersService {
 
     await this.prisma.user.delete({ where: { id } });
     return { message: 'Usuário removido com sucesso' };
+  }
+
+  async changeMyPassword(requester: JwtPayload, dto: ChangePasswordDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: requester.sub },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+
+    const passwordMatches = await bcrypt.compare(dto.senhaAtual, user.senha);
+    if (!passwordMatches) {
+      throw new BadRequestException('Senha atual inválida');
+    }
+
+    const hashedPassword = await bcrypt.hash(dto.novaSenha, 10);
+    await this.prisma.user.update({
+      where: { id: requester.sub },
+      data: {
+        senha: hashedPassword,
+        refreshToken: null,
+      },
+    });
+
+    return { message: 'Senha atualizada com sucesso' };
   }
 
   private sanitize<T extends { senha?: string | null; refreshToken?: string | null }>(

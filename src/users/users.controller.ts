@@ -16,6 +16,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 import { UsersService } from './users.service';
 import { UserRole } from '@prisma/client';
 
@@ -39,6 +40,15 @@ export class UsersController {
   @Get('me')
   me(@GetUser() user: JwtPayload) {
     return this.usersService.findMe(user.sub);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('me/password')
+  changeMyPassword(
+    @Body() dto: ChangePasswordDto,
+    @GetUser() user: JwtPayload,
+  ) {
+    return this.usersService.changeMyPassword(user, dto);
   }
 
   @Roles(UserRole.ADMIN, UserRole.GERENTE_REVENDA)
