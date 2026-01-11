@@ -18,8 +18,9 @@ export class UsersService {
 
   async create(dto: CreateUserDto, requester: JwtPayload): Promise<Omit<User, 'senha' | 'refreshToken'>> {
     const role = dto.role ?? UserRole.USUARIO_REVENDA;
+    let revendaId = dto.revendaId ?? null;
 
-    if (role !== UserRole.ADMIN && !dto.revendaId) {
+    if (role !== UserRole.ADMIN && !revendaId) {
       throw new BadRequestException('revendaId é obrigatório para este perfil');
     }
 
@@ -27,15 +28,16 @@ export class UsersService {
       if (!requester.revendaId) {
         throw new ForbiddenException('Usuário sem revenda vinculada');
       }
-      if (dto.revendaId && dto.revendaId !== requester.revendaId) {
+      if (revendaId && revendaId !== requester.revendaId) {
         throw new ForbiddenException('Você só pode criar usuários da sua revenda');
       }
       if (role === UserRole.ADMIN) {
         throw new ForbiddenException('Somente ADMIN pode criar outro ADMIN');
       }
+      revendaId = requester.revendaId;
     }
 
-    await this.ensureRevendaExists(dto.revendaId);
+    await this.ensureRevendaExists(revendaId);
     await this.ensureEmailAvailable(dto.email);
 
     const hashedPassword = await bcrypt.hash(dto.senha, 10);
@@ -47,7 +49,7 @@ export class UsersService {
         telefone: dto.telefone,
         dataNasc: dto.dataNasc ? new Date(dto.dataNasc) : undefined,
         role,
-        revendaId: dto.revendaId ?? null,
+        revendaId,
       },
     });
 
@@ -68,7 +70,10 @@ export class UsersService {
         throw new ForbiddenException('Usuário sem revenda vinculada');
       }
       const users = await this.prisma.user.findMany({
-        where: { revendaId: requester.revendaId },
+        where: {
+          revendaId: requester.revendaId,
+          role: { not: UserRole.ADMIN },
+        },
         include: { revenda: true },
         orderBy: { createdAt: 'desc' },
       });

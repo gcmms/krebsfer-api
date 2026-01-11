@@ -13,6 +13,13 @@ enum UserRole {
   USUARIO_REVENDA
 }
 
+enum OrcamentoStatus {
+  RASCUNHO
+  APROVADO
+  PEDIDO_CRIADO_SAP
+  FINALIZADO
+}
+
 model Revenda {
   id                String   @id @default(cuid())
   nome              String
@@ -34,6 +41,7 @@ model Revenda {
 
   usuarios          User[]
   clientes          Cliente[]
+  orcamentos        Orcamento[]
 
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
@@ -54,6 +62,7 @@ model Cliente {
   enderecoCompleto  String
 
   revendas          Revenda[]
+  orcamentos        Orcamento[]
 
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
@@ -80,7 +89,92 @@ model User {
   revenda       Revenda?  @relation(fields: [revendaId], references: [id])
 
   refreshToken  String?
+  orcamentosCriados Orcamento[]
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+model Orcamento {
+  id              String          @id @default(cuid())
+  numeroOrcamento String          @unique
+  versao          Int             @default(1)
+  status          OrcamentoStatus @default(RASCUNHO)
+  comissionado    Boolean         @default(false)
+  referenciaPedido String?
+  observacoes     String?
+  numeroPedidoSap String?
+  total           Decimal         @db.Decimal(14, 2)
+
+  clienteId       String
+  revendaId       String
+  createdById     String?
+
+  cliente         Cliente         @relation(fields: [clienteId], references: [id])
+  revenda         Revenda         @relation(fields: [revendaId], references: [id])
+  createdBy       User?           @relation(fields: [createdById], references: [id])
+  itens           OrcamentoItem[]
+
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([clienteId])
+  @@index([revendaId])
+}
+
+model OrcamentoItem {
+  id            String   @id @default(cuid())
+  orcamentoId   String
+  itemCode      String
+  itemName      String
+  quantidade    Int
+  precoCheio    Decimal  @db.Decimal(12, 3)
+  precoDesconto Decimal  @db.Decimal(12, 3)
+  imposto01     Decimal  @db.Decimal(12, 3)
+  imposto02     Decimal  @db.Decimal(12, 3)
+  imposto03     Decimal  @db.Decimal(12, 3)
+  precoFinal    Decimal  @db.Decimal(12, 3)
+
+  orcamento     Orcamento @relation(fields: [orcamentoId], references: [id])
+
+  @@index([orcamentoId])
+}
+
+model CatalogoCategoria {
+  nome          String               @id
+  subcategorias CatalogoSubcategoria[]
+  pecas         CatalogoPeca[]
+
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @default(now()) @updatedAt
+}
+
+model CatalogoSubcategoria {
+  categoriaNome String
+  nome          String
+  categoria     CatalogoCategoria     @relation(fields: [categoriaNome], references: [nome])
+  pecas         CatalogoPeca[]
+
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @default(now()) @updatedAt
+
+  @@id([categoriaNome, nome])
+}
+
+model CatalogoPeca {
+  itemCode          String           @id
+  itemName          String
+  price             Decimal          @db.Decimal(12, 3)
+  salUnitMsr        String?
+  ncmCode           String?
+  categoriaNome     String
+  subcategoriaNome  String
+
+  categoria         CatalogoCategoria @relation(fields: [categoriaNome], references: [nome])
+  subcategoria      CatalogoSubcategoria @relation(fields: [categoriaNome, subcategoriaNome], references: [categoriaNome, nome])
+
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @default(now()) @updatedAt
+
+  @@index([categoriaNome, subcategoriaNome])
 }
