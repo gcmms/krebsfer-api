@@ -137,6 +137,26 @@ export class OrcamentosService {
       revenda: orcamento.revenda?.nome ?? '',
       cliente_id: orcamento.clienteId,
       revenda_id: orcamento.revendaId,
+      cliente_dados: orcamento.cliente
+        ? {
+            nome: orcamento.cliente.nome,
+            cnpj_cpf: orcamento.cliente.cnpjCpf,
+            inscricao_estadual: orcamento.cliente.inscricaoEstadual,
+            email: orcamento.cliente.emailPrincipal,
+            telefone: orcamento.cliente.telefoneContato ?? orcamento.cliente.telefoneFixo,
+            endereco: orcamento.cliente.enderecoCompleto,
+          }
+        : null,
+      revenda_dados: orcamento.revenda
+        ? {
+            nome: orcamento.revenda.nome,
+            cnpj_cpf: orcamento.revenda.cnpjCpf,
+            inscricao_estadual: orcamento.revenda.inscricaoEstadual,
+            email: orcamento.revenda.emailPrincipal,
+            telefone: orcamento.revenda.telefoneContato ?? orcamento.revenda.telefoneFixo,
+            endereco: orcamento.revenda.enderecoCompleto,
+          }
+        : null,
       itens: includeItens
         ? orcamento.itens.map((item: any) => ({
             codigo_sap: item.itemCode,
