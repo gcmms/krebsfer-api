@@ -7,13 +7,15 @@ export declare class RevendasController {
     constructor(revendasService: RevendasService);
     create(dto: CreateRevendaDto, user: JwtPayload): Promise<{
         municipios: {
+            id: string;
             nome: string;
             revendaId: string;
-            id: string;
         }[];
     } & {
-        nome: string;
         id: string;
+        nome: string;
+        createdAt: Date;
+        updatedAt: Date;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -24,31 +26,31 @@ export declare class RevendasController {
         enderecoCompleto: string;
         aliquotaDesconto: number;
         comissao: number;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     findAll(): Promise<({
         municipios: {
+            id: string;
             nome: string;
             revendaId: string;
-            id: string;
         }[];
         usuarios: {
+            id: string;
             email: string;
-            senha: string;
             nome: string;
+            senha: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
             revendaId: string | null;
-            id: string;
+            refreshToken: string | null;
             createdAt: Date;
             updatedAt: Date;
-            refreshToken: string | null;
         }[];
     } & {
-        nome: string;
         id: string;
+        nome: string;
+        createdAt: Date;
+        updatedAt: Date;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -59,31 +61,31 @@ export declare class RevendasController {
         enderecoCompleto: string;
         aliquotaDesconto: number;
         comissao: number;
-        createdAt: Date;
-        updatedAt: Date;
     })[]>;
     findOne(id: string): Promise<{
         municipios: {
+            id: string;
             nome: string;
             revendaId: string;
-            id: string;
         }[];
         usuarios: {
+            id: string;
             email: string;
-            senha: string;
             nome: string;
+            senha: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
             revendaId: string | null;
-            id: string;
+            refreshToken: string | null;
             createdAt: Date;
             updatedAt: Date;
-            refreshToken: string | null;
         }[];
     } & {
-        nome: string;
         id: string;
+        nome: string;
+        createdAt: Date;
+        updatedAt: Date;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -94,31 +96,31 @@ export declare class RevendasController {
         enderecoCompleto: string;
         aliquotaDesconto: number;
         comissao: number;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     update(id: string, dto: UpdateRevendaDto, user: JwtPayload): Promise<{
         municipios: {
+            id: string;
             nome: string;
             revendaId: string;
-            id: string;
         }[];
         usuarios: {
+            id: string;
             email: string;
-            senha: string;
             nome: string;
+            senha: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
             revendaId: string | null;
-            id: string;
+            refreshToken: string | null;
             createdAt: Date;
             updatedAt: Date;
-            refreshToken: string | null;
         }[];
     } & {
-        nome: string;
         id: string;
+        nome: string;
+        createdAt: Date;
+        updatedAt: Date;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -129,8 +131,6 @@ export declare class RevendasController {
         enderecoCompleto: string;
         aliquotaDesconto: number;
         comissao: number;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     remove(id: string, user: JwtPayload): Promise<{
         message: string;

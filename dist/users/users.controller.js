@@ -21,6 +21,7 @@ const roles_guard_1 = require("../common/guards/roles.guard");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const update_user_dto_1 = require("./dto/update-user.dto");
+const change_password_dto_1 = require("./dto/change-password.dto");
 const users_service_1 = require("./users.service");
 const client_1 = require("@prisma/client");
 let UsersController = class UsersController {
@@ -32,6 +33,9 @@ let UsersController = class UsersController {
     }
     me(user) {
         return this.usersService.findMe(user.sub);
+    }
+    changeMyPassword(dto, user) {
+        return this.usersService.changeMyPassword(user, dto);
     }
     findAll(user) {
         return this.usersService.findAll(user);
@@ -61,6 +65,15 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "me", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Patch)('me/password'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, get_user_decorator_1.GetUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [change_password_dto_1.ChangePasswordDto, Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "changeMyPassword", null);
 __decorate([
     (0, roles_decorator_1.Roles)(client_1.UserRole.ADMIN, client_1.UserRole.GERENTE_REVENDA),
     (0, common_1.Get)(),

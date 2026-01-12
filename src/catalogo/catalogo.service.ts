@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
 type CatalogoQuery = {
@@ -12,13 +13,13 @@ export class CatalogoService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll({ search, skip = 0, take = 5000 }: CatalogoQuery) {
-    const where = search
+    const where: Prisma.CatalogoPecaWhereInput | undefined = search
       ? {
           OR: [
-            { itemCode: { contains: search, mode: 'insensitive' } },
-            { itemName: { contains: search, mode: 'insensitive' } },
-            { categoriaNome: { contains: search, mode: 'insensitive' } },
-            { subcategoriaNome: { contains: search, mode: 'insensitive' } },
+            { itemCode: { contains: search, mode: Prisma.QueryMode.insensitive } },
+            { itemName: { contains: search, mode: Prisma.QueryMode.insensitive } },
+            { categoriaNome: { contains: search, mode: Prisma.QueryMode.insensitive } },
+            { subcategoriaNome: { contains: search, mode: Prisma.QueryMode.insensitive } },
           ],
         }
       : undefined;

@@ -7,8 +7,10 @@ export declare class ClientesService {
     constructor(prisma: PrismaService);
     create(dto: CreateClienteDto, requester: JwtPayload): Promise<{
         revendas: {
-            nome: string;
             id: string;
+            nome: string;
+            createdAt: Date;
+            updatedAt: Date;
             cnpjCpf: string;
             inscricaoEstadual: string | null;
             dataCadastro: Date;
@@ -19,12 +21,12 @@ export declare class ClientesService {
             enderecoCompleto: string;
             aliquotaDesconto: number;
             comissao: number;
-            createdAt: Date;
-            updatedAt: Date;
         }[];
     } & {
-        nome: string;
         id: string;
+        nome: string;
+        createdAt: Date;
+        updatedAt: Date;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -33,13 +35,13 @@ export declare class ClientesService {
         telefoneFixo: string | null;
         telefoneContato: string | null;
         enderecoCompleto: string;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     findAll(): import(".prisma/client").Prisma.PrismaPromise<({
         revendas: {
-            nome: string;
             id: string;
+            nome: string;
+            createdAt: Date;
+            updatedAt: Date;
             cnpjCpf: string;
             inscricaoEstadual: string | null;
             dataCadastro: Date;
@@ -50,12 +52,12 @@ export declare class ClientesService {
             enderecoCompleto: string;
             aliquotaDesconto: number;
             comissao: number;
-            createdAt: Date;
-            updatedAt: Date;
         }[];
     } & {
-        nome: string;
         id: string;
+        nome: string;
+        createdAt: Date;
+        updatedAt: Date;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -64,13 +66,13 @@ export declare class ClientesService {
         telefoneFixo: string | null;
         telefoneContato: string | null;
         enderecoCompleto: string;
-        createdAt: Date;
-        updatedAt: Date;
     })[]>;
     findOne(id: string): Promise<{
         revendas: {
-            nome: string;
             id: string;
+            nome: string;
+            createdAt: Date;
+            updatedAt: Date;
             cnpjCpf: string;
             inscricaoEstadual: string | null;
             dataCadastro: Date;
@@ -81,12 +83,12 @@ export declare class ClientesService {
             enderecoCompleto: string;
             aliquotaDesconto: number;
             comissao: number;
-            createdAt: Date;
-            updatedAt: Date;
         }[];
     } & {
-        nome: string;
         id: string;
+        nome: string;
+        createdAt: Date;
+        updatedAt: Date;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -95,13 +97,13 @@ export declare class ClientesService {
         telefoneFixo: string | null;
         telefoneContato: string | null;
         enderecoCompleto: string;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     update(id: string, dto: UpdateClienteDto, requester: JwtPayload): Promise<{
         revendas: {
-            nome: string;
             id: string;
+            nome: string;
+            createdAt: Date;
+            updatedAt: Date;
             cnpjCpf: string;
             inscricaoEstadual: string | null;
             dataCadastro: Date;
@@ -112,12 +114,12 @@ export declare class ClientesService {
             enderecoCompleto: string;
             aliquotaDesconto: number;
             comissao: number;
-            createdAt: Date;
-            updatedAt: Date;
         }[];
     } & {
-        nome: string;
         id: string;
+        nome: string;
+        createdAt: Date;
+        updatedAt: Date;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -126,8 +128,6 @@ export declare class ClientesService {
         telefoneFixo: string | null;
         telefoneContato: string | null;
         enderecoCompleto: string;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     remove(id: string, requester: JwtPayload): Promise<{
         message: string;

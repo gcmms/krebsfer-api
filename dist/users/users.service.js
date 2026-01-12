@@ -65,21 +65,23 @@ let UsersService = class UsersService {
     async create(dto, requester) {
         var _a, _b;
         const role = (_a = dto.role) !== null && _a !== void 0 ? _a : client_1.UserRole.USUARIO_REVENDA;
-        if (role !== client_1.UserRole.ADMIN && !dto.revendaId) {
+        let revendaId = (_b = dto.revendaId) !== null && _b !== void 0 ? _b : null;
+        if (role !== client_1.UserRole.ADMIN && !revendaId) {
             throw new common_1.BadRequestException('revendaId é obrigatório para este perfil');
         }
         if (requester.role !== client_1.UserRole.ADMIN) {
             if (!requester.revendaId) {
                 throw new common_1.ForbiddenException('Usuário sem revenda vinculada');
             }
-            if (dto.revendaId && dto.revendaId !== requester.revendaId) {
+            if (revendaId && revendaId !== requester.revendaId) {
                 throw new common_1.ForbiddenException('Você só pode criar usuários da sua revenda');
             }
             if (role === client_1.UserRole.ADMIN) {
                 throw new common_1.ForbiddenException('Somente ADMIN pode criar outro ADMIN');
             }
+            revendaId = requester.revendaId;
         }
-        await this.ensureRevendaExists(dto.revendaId);
+        await this.ensureRevendaExists(revendaId);
         await this.ensureEmailAvailable(dto.email);
         const hashedPassword = await bcrypt.hash(dto.senha, 10);
         const user = await this.prisma.user.create({
@@ -90,7 +92,7 @@ let UsersService = class UsersService {
                 telefone: dto.telefone,
                 dataNasc: dto.dataNasc ? new Date(dto.dataNasc) : undefined,
                 role,
-                revendaId: (_b = dto.revendaId) !== null && _b !== void 0 ? _b : null,
+                revendaId,
             },
         });
         return this.sanitize(user);
@@ -108,7 +110,10 @@ let UsersService = class UsersService {
                 throw new common_1.ForbiddenException('Usuário sem revenda vinculada');
             }
             const users = await this.prisma.user.findMany({
-                where: { revendaId: requester.revendaId },
+                where: {
+                    revendaId: requester.revendaId,
+                    role: { not: client_1.UserRole.ADMIN },
+                },
                 include: { revenda: true },
                 orderBy: { createdAt: 'desc' },
             });
@@ -175,12 +180,36 @@ let UsersService = class UsersService {
         if (requester.role !== client_1.UserRole.ADMIN) {
             throw new common_1.ForbiddenException('Somente ADMIN pode remover usuários');
         }
+        if (requester.sub === id) {
+            throw new common_1.ForbiddenException('Você não pode remover o próprio usuário');
+        }
         const exists = await this.prisma.user.findUnique({ where: { id } });
         if (!exists) {
             throw new common_1.NotFoundException('Usuário não encontrado');
         }
         await this.prisma.user.delete({ where: { id } });
         return { message: 'Usuário removido com sucesso' };
+    }
+    async changeMyPassword(requester, dto) {
+        const user = await this.prisma.user.findUnique({
+            where: { id: requester.sub },
+        });
+        if (!user) {
+            throw new common_1.NotFoundException('Usuário não encontrado');
+        }
+        const passwordMatches = await bcrypt.compare(dto.senhaAtual, user.senha);
+        if (!passwordMatches) {
+            throw new common_1.BadRequestException('Senha atual inválida');
+        }
+        const hashedPassword = await bcrypt.hash(dto.novaSenha, 10);
+        await this.prisma.user.update({
+            where: { id: requester.sub },
+            data: {
+                senha: hashedPassword,
+                refreshToken: null,
+            },
+        });
+        return { message: 'Senha atualizada com sucesso' };
     }
     sanitize(user) {
         const { senha, refreshToken } = user, rest = __rest(user, ["senha", "refreshToken"]);

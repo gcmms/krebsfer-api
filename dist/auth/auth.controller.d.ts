@@ -9,13 +9,13 @@ export declare class AuthController {
         accessToken: string;
         refreshToken: string;
         user: {
+            id: string;
             email: string;
             nome: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
             revendaId: string | null;
-            id: string;
             createdAt: Date;
             updatedAt: Date;
         };
@@ -24,13 +24,13 @@ export declare class AuthController {
         accessToken: string;
         refreshToken: string;
         user: {
+            id: string;
             email: string;
             nome: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
             revendaId: string | null;
-            id: string;
             createdAt: Date;
             updatedAt: Date;
         };
@@ -39,13 +39,13 @@ export declare class AuthController {
         accessToken: string;
         refreshToken: string;
         user: {
+            id: string;
             email: string;
             nome: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
             revendaId: string | null;
-            id: string;
             createdAt: Date;
             updatedAt: Date;
         };
