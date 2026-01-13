@@ -29,6 +29,9 @@ jobs:
           npx prisma generate
           npm run build --if-present
           npm run test --if-present
+      
+      - name: Prune dev dependencies
+        run: |
           npm prune --omit=dev
 
       - name: Upload artifact for deployment job
@@ -58,15 +61,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_D8D9A75E18C448BEA7CD1326777FAEC6 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B54EE613210945D69A36FC95254A8C13 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_5A898217909B4F8682E7F6CD56D449AE }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_45A5DBCB13544C07BA8D129F52338FBE }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_CA6D8E438AA54950B3AFA5742FD6AF70 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_155F5EEDC2574DC8AE4F70534BA9C34A }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'Calkapi'
+          app-name: 'calk-api'
           slot-name: 'Production'
           package: .
           
