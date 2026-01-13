@@ -54,16 +54,9 @@ app.get('/api/ping', (req, res) => {
 
 app.get('/api/status', async (req, res) => {
   try {
-    const result = await runPrisma(['migrate', 'status', '--schema', schemaPath, '--json']);
-    let parsed;
-
-    try {
-      parsed = JSON.parse(result.stdout || result.stderr);
-    } catch {
-      parsed = { raw: (result.stdout || result.stderr || '').trim() };
-    }
-
-    res.json({ ok: true, result: parsed });
+    const result = await runPrisma(['migrate', 'status', '--schema', schemaPath]);
+    const raw = (result.stdout || result.stderr || '').trim();
+    res.json({ ok: true, result: { raw } });
   } catch (err) {
     res.status(500).json({
       ok: false,
