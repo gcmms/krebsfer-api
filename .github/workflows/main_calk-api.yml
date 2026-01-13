@@ -27,6 +27,8 @@ jobs:
         run: |
           npm ci
           npx prisma generate
+          rm -rf dist
+          rm -f tsconfig.tsbuildinfo dist/tsconfig.tsbuildinfo
           npm run build --if-present
           npm run test --if-present
       
