@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Krebsfer Migration Runner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="ambient">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <main class="shell">
+      <header class="hero">
+        <p class="eyebrow">Krebsfer Ops</p>
+        <h1>Migration Runner</h1>
+        <p class="lead">
+          Execute migrations do Prisma com acompanhamento visual. Sem login, sem
+          frescura - apenas o essencial para subir e derrubar.
+        </p>
+      </header>
+
+      <section class="grid">
+        <div class="panel">
+          <div class="panel-header">
+            <h2>Fluxo controlado</h2>
+            <p>Veja exatamente onde parou.</p>
+          </div>
+
+          <ul class="steps" id="steps">
+            <li data-step="ping">
+              <label>
+                <input type="checkbox" disabled />
+                <span>Conexao e variaveis de ambiente</span>
+              </label>
+            </li>
+            <li data-step="status-before">
+              <label>
+                <input type="checkbox" disabled />
+                <span>Status das migrations (antes)</span>
+              </label>
+            </li>
+            <li data-step="deploy">
+              <label>
+                <input type="checkbox" disabled />
+                <span>Aplicacao das migrations</span>
+              </label>
+            </li>
+            <li data-step="status-after">
+              <label>
+                <input type="checkbox" disabled />
+                <span>Status das migrations (final)</span>
+              </label>
+            </li>
+          </ul>
+
+          <div class="actions">
+            <button class="primary" id="run">Rodar migrations</button>
+            <button class="ghost" id="status">Checar status</button>
+            <button class="ghost" id="reset">Resetar checks</button>
+          </div>
+
+          <div class="status" id="summary">
+            <div>
+              <span class="label">Pendentes</span>
+              <strong id="pending">-</strong>
+            </div>
+            <div>
+              <span class="label">Aplicadas</span>
+              <strong id="applied">-</strong>
+            </div>
+            <div>
+              <span class="label">Ultima execucao</span>
+              <strong id="last-run">-</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel log">
+          <div class="panel-header">
+            <h2>Console</h2>
+            <p>Logs em tempo real do que o Prisma respondeu.</p>
+          </div>
+          <pre id="log" aria-live="polite"></pre>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <p>Use este app apenas para rodar migrations. Derrube apos concluir.</p>
+      </footer>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
