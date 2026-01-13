@@ -1,6 +1,3 @@
--- Create extension for bcrypt hashing in seed
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
-
 -- CreateEnum
 CREATE TYPE "UserRole" AS ENUM ('ADMIN', 'GERENTE_REVENDA', 'USUARIO_REVENDA');
 
@@ -60,18 +57,3 @@ ALTER TABLE "MunicipioAtuacao" ADD CONSTRAINT "MunicipioAtuacao_revendaId_fkey" 
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_revendaId_fkey" FOREIGN KEY ("revendaId") REFERENCES "Revenda"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- Seed initial administrator
-INSERT INTO "User" ("id", "nome", "email", "senha", "role", "revendaId", "telefone", "dataNasc", "refreshToken")
-VALUES (
-    'seed-admin-1',
-    'Administrador',
-    'admin@admin.com',
-    crypt('123456', gen_salt('bf', 10)),
-    'ADMIN',
-    NULL,
-    NULL,
-    NULL,
-    NULL
-)
-ON CONFLICT ("email") DO NOTHING;
