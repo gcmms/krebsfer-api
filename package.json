@@ -5,8 +5,8 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "postinstall": "npx prisma generate",
-    "prestart": "npx prisma generate",
+    "postinstall": "node ./node_modules/prisma/build/index.js generate",
+    "prestart": "node ./node_modules/prisma/build/index.js generate",
     "start": "node dist/main.js",
     "start:dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "prisma:generate": "prisma generate",
