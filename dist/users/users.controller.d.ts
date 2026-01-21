@@ -7,22 +7,22 @@ export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
     create(dto: CreateUserDto, user: JwtPayload): Promise<Omit<{
+        id: string;
+        nome: string;
+        createdAt: Date;
+        updatedAt: Date;
         email: string;
         senha: string;
-        nome: string;
         telefone: string | null;
         dataNasc: Date | null;
         role: import(".prisma/client").$Enums.UserRole;
         revendaId: string | null;
-        id: string;
-        createdAt: Date;
-        updatedAt: Date;
         refreshToken: string | null;
     }, "senha" | "refreshToken">>;
     me(user: JwtPayload): Promise<Omit<{
         revenda: {
-            nome: string;
             id: string;
+            nome: string;
             cnpjCpf: string;
             inscricaoEstadual: string | null;
             dataCadastro: Date;
@@ -31,22 +31,22 @@ export declare class UsersController {
             telefoneFixo: string | null;
             telefoneContato: string | null;
             enderecoCompleto: string;
-            aliquotaDesconto: number;
-            comissao: number;
             createdAt: Date;
             updatedAt: Date;
+            aliquotaDesconto: number;
+            comissao: number;
         } | null;
     } & {
+        id: string;
+        nome: string;
+        createdAt: Date;
+        updatedAt: Date;
         email: string;
         senha: string;
-        nome: string;
         telefone: string | null;
         dataNasc: Date | null;
         role: import(".prisma/client").$Enums.UserRole;
         revendaId: string | null;
-        id: string;
-        createdAt: Date;
-        updatedAt: Date;
         refreshToken: string | null;
     }, "senha" | "refreshToken">>;
     changeMyPassword(dto: ChangePasswordDto, user: JwtPayload): Promise<{
@@ -54,8 +54,8 @@ export declare class UsersController {
     }>;
     findAll(user: JwtPayload): Promise<Omit<{
         revenda: {
-            nome: string;
             id: string;
+            nome: string;
             cnpjCpf: string;
             inscricaoEstadual: string | null;
             dataCadastro: Date;
@@ -64,35 +64,35 @@ export declare class UsersController {
             telefoneFixo: string | null;
             telefoneContato: string | null;
             enderecoCompleto: string;
-            aliquotaDesconto: number;
-            comissao: number;
             createdAt: Date;
             updatedAt: Date;
+            aliquotaDesconto: number;
+            comissao: number;
         } | null;
     } & {
+        id: string;
+        nome: string;
+        createdAt: Date;
+        updatedAt: Date;
         email: string;
         senha: string;
-        nome: string;
         telefone: string | null;
         dataNasc: Date | null;
         role: import(".prisma/client").$Enums.UserRole;
         revendaId: string | null;
-        id: string;
-        createdAt: Date;
-        updatedAt: Date;
         refreshToken: string | null;
     }, "senha" | "refreshToken">[]>;
     update(id: string, dto: UpdateUserDto, user: JwtPayload): Promise<Omit<{
+        id: string;
+        nome: string;
+        createdAt: Date;
+        updatedAt: Date;
         email: string;
         senha: string;
-        nome: string;
         telefone: string | null;
         dataNasc: Date | null;
         role: import(".prisma/client").$Enums.UserRole;
         revendaId: string | null;
-        id: string;
-        createdAt: Date;
-        updatedAt: Date;
         refreshToken: string | null;
     }, "senha" | "refreshToken">>;
     remove(id: string, user: JwtPayload): Promise<{

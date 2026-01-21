@@ -59,6 +59,11 @@ __decorate([
     __metadata("design:type", String)
 ], CreateClienteDto.prototype, "enderecoCompleto", void 0);
 __decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], CreateClienteDto.prototype, "uf", void 0);
+__decorate([
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.ArrayNotEmpty)(),
     (0, class_validator_1.IsString)({ each: true }),

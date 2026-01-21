@@ -13,45 +13,45 @@ export declare class AuthService {
         accessToken: string;
         refreshToken: string;
         user: {
-            email: string;
+            id: string;
             nome: string;
+            createdAt: Date;
+            updatedAt: Date;
+            email: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
             revendaId: string | null;
-            id: string;
-            createdAt: Date;
-            updatedAt: Date;
         };
     }>;
     login(dto: LoginDto): Promise<{
         accessToken: string;
         refreshToken: string;
         user: {
-            email: string;
+            id: string;
             nome: string;
+            createdAt: Date;
+            updatedAt: Date;
+            email: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
             revendaId: string | null;
-            id: string;
-            createdAt: Date;
-            updatedAt: Date;
         };
     }>;
     refreshTokens(userId: string, refreshToken: string): Promise<{
         accessToken: string;
         refreshToken: string;
         user: {
-            email: string;
+            id: string;
             nome: string;
+            createdAt: Date;
+            updatedAt: Date;
+            email: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
             revendaId: string | null;
-            id: string;
-            createdAt: Date;
-            updatedAt: Date;
         };
     }>;
     private updateRefreshToken;

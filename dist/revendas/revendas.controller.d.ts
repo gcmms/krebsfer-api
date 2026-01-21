@@ -7,13 +7,13 @@ export declare class RevendasController {
     constructor(revendasService: RevendasService);
     create(dto: CreateRevendaDto, user: JwtPayload): Promise<{
         municipios: {
+            id: string;
             nome: string;
             revendaId: string;
-            id: string;
         }[];
     } & {
-        nome: string;
         id: string;
+        nome: string;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -22,33 +22,33 @@ export declare class RevendasController {
         telefoneFixo: string | null;
         telefoneContato: string | null;
         enderecoCompleto: string;
-        aliquotaDesconto: number;
-        comissao: number;
         createdAt: Date;
         updatedAt: Date;
+        aliquotaDesconto: number;
+        comissao: number;
     }>;
     findAll(): Promise<({
         municipios: {
+            id: string;
             nome: string;
             revendaId: string;
-            id: string;
         }[];
         usuarios: {
+            id: string;
+            nome: string;
+            createdAt: Date;
+            updatedAt: Date;
             email: string;
             senha: string;
-            nome: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
             revendaId: string | null;
-            id: string;
-            createdAt: Date;
-            updatedAt: Date;
             refreshToken: string | null;
         }[];
     } & {
-        nome: string;
         id: string;
+        nome: string;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -57,33 +57,33 @@ export declare class RevendasController {
         telefoneFixo: string | null;
         telefoneContato: string | null;
         enderecoCompleto: string;
-        aliquotaDesconto: number;
-        comissao: number;
         createdAt: Date;
         updatedAt: Date;
+        aliquotaDesconto: number;
+        comissao: number;
     })[]>;
     findOne(id: string): Promise<{
         municipios: {
+            id: string;
             nome: string;
             revendaId: string;
-            id: string;
         }[];
         usuarios: {
+            id: string;
+            nome: string;
+            createdAt: Date;
+            updatedAt: Date;
             email: string;
             senha: string;
-            nome: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
             revendaId: string | null;
-            id: string;
-            createdAt: Date;
-            updatedAt: Date;
             refreshToken: string | null;
         }[];
     } & {
-        nome: string;
         id: string;
+        nome: string;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -92,33 +92,33 @@ export declare class RevendasController {
         telefoneFixo: string | null;
         telefoneContato: string | null;
         enderecoCompleto: string;
-        aliquotaDesconto: number;
-        comissao: number;
         createdAt: Date;
         updatedAt: Date;
+        aliquotaDesconto: number;
+        comissao: number;
     }>;
     update(id: string, dto: UpdateRevendaDto, user: JwtPayload): Promise<{
         municipios: {
+            id: string;
             nome: string;
             revendaId: string;
-            id: string;
         }[];
         usuarios: {
+            id: string;
+            nome: string;
+            createdAt: Date;
+            updatedAt: Date;
             email: string;
             senha: string;
-            nome: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
             revendaId: string | null;
-            id: string;
-            createdAt: Date;
-            updatedAt: Date;
             refreshToken: string | null;
         }[];
     } & {
-        nome: string;
         id: string;
+        nome: string;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -127,10 +127,10 @@ export declare class RevendasController {
         telefoneFixo: string | null;
         telefoneContato: string | null;
         enderecoCompleto: string;
-        aliquotaDesconto: number;
-        comissao: number;
         createdAt: Date;
         updatedAt: Date;
+        aliquotaDesconto: number;
+        comissao: number;
     }>;
     remove(id: string, user: JwtPayload): Promise<{
         message: string;

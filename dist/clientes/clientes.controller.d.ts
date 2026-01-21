@@ -7,8 +7,8 @@ export declare class ClientesController {
     constructor(clientesService: ClientesService);
     create(dto: CreateClienteDto, user: JwtPayload): Promise<{
         revendas: {
-            nome: string;
             id: string;
+            nome: string;
             cnpjCpf: string;
             inscricaoEstadual: string | null;
             dataCadastro: Date;
@@ -17,14 +17,14 @@ export declare class ClientesController {
             telefoneFixo: string | null;
             telefoneContato: string | null;
             enderecoCompleto: string;
-            aliquotaDesconto: number;
-            comissao: number;
             createdAt: Date;
             updatedAt: Date;
+            aliquotaDesconto: number;
+            comissao: number;
         }[];
     } & {
-        nome: string;
         id: string;
+        nome: string;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -33,13 +33,14 @@ export declare class ClientesController {
         telefoneFixo: string | null;
         telefoneContato: string | null;
         enderecoCompleto: string;
+        uf: string | null;
         createdAt: Date;
         updatedAt: Date;
     }>;
     findAll(): import(".prisma/client").Prisma.PrismaPromise<({
         revendas: {
-            nome: string;
             id: string;
+            nome: string;
             cnpjCpf: string;
             inscricaoEstadual: string | null;
             dataCadastro: Date;
@@ -48,14 +49,14 @@ export declare class ClientesController {
             telefoneFixo: string | null;
             telefoneContato: string | null;
             enderecoCompleto: string;
-            aliquotaDesconto: number;
-            comissao: number;
             createdAt: Date;
             updatedAt: Date;
+            aliquotaDesconto: number;
+            comissao: number;
         }[];
     } & {
-        nome: string;
         id: string;
+        nome: string;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -64,13 +65,14 @@ export declare class ClientesController {
         telefoneFixo: string | null;
         telefoneContato: string | null;
         enderecoCompleto: string;
+        uf: string | null;
         createdAt: Date;
         updatedAt: Date;
     })[]>;
     findOne(id: string): Promise<{
         revendas: {
-            nome: string;
             id: string;
+            nome: string;
             cnpjCpf: string;
             inscricaoEstadual: string | null;
             dataCadastro: Date;
@@ -79,14 +81,14 @@ export declare class ClientesController {
             telefoneFixo: string | null;
             telefoneContato: string | null;
             enderecoCompleto: string;
-            aliquotaDesconto: number;
-            comissao: number;
             createdAt: Date;
             updatedAt: Date;
+            aliquotaDesconto: number;
+            comissao: number;
         }[];
     } & {
-        nome: string;
         id: string;
+        nome: string;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -95,13 +97,14 @@ export declare class ClientesController {
         telefoneFixo: string | null;
         telefoneContato: string | null;
         enderecoCompleto: string;
+        uf: string | null;
         createdAt: Date;
         updatedAt: Date;
     }>;
     update(id: string, dto: UpdateClienteDto, user: JwtPayload): Promise<{
         revendas: {
-            nome: string;
             id: string;
+            nome: string;
             cnpjCpf: string;
             inscricaoEstadual: string | null;
             dataCadastro: Date;
@@ -110,14 +113,14 @@ export declare class ClientesController {
             telefoneFixo: string | null;
             telefoneContato: string | null;
             enderecoCompleto: string;
-            aliquotaDesconto: number;
-            comissao: number;
             createdAt: Date;
             updatedAt: Date;
+            aliquotaDesconto: number;
+            comissao: number;
         }[];
     } & {
-        nome: string;
         id: string;
+        nome: string;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -126,6 +129,7 @@ export declare class ClientesController {
         telefoneFixo: string | null;
         telefoneContato: string | null;
         enderecoCompleto: string;
+        uf: string | null;
         createdAt: Date;
         updatedAt: Date;
     }>;

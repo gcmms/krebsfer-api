@@ -10,6 +10,7 @@ export declare class UpdateClienteDto extends UpdateClienteDto_base {
     telefoneFixo?: string;
     telefoneContato?: string;
     enderecoCompleto?: string;
+    uf?: string;
     revendaIds?: string[];
 }
 export {};

@@ -30,6 +30,7 @@ let ClientesService = class ClientesService {
                 telefoneFixo: dto.telefoneFixo,
                 telefoneContato: dto.telefoneContato,
                 enderecoCompleto: dto.enderecoCompleto,
+                uf: dto.uf,
                 revendas: {
                     connect: dto.revendaIds.map((revendaId) => ({ id: revendaId })),
                 },
@@ -68,6 +69,7 @@ let ClientesService = class ClientesService {
                 telefoneFixo: dto.telefoneFixo,
                 telefoneContato: dto.telefoneContato,
                 enderecoCompleto: dto.enderecoCompleto,
+                uf: dto.uf,
                 revendas: dto.revendaIds
                     ? {
                         set: dto.revendaIds.map((revendaId) => ({ id: revendaId })),

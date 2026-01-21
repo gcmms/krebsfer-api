@@ -8,5 +8,6 @@ export declare class CreateClienteDto {
     telefoneFixo?: string;
     telefoneContato?: string;
     enderecoCompleto: string;
+    uf: string;
     revendaIds: string[];
 }

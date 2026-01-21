@@ -10,8 +10,8 @@ export declare class UsersService {
     create(dto: CreateUserDto, requester: JwtPayload): Promise<Omit<User, 'senha' | 'refreshToken'>>;
     findAll(requester: JwtPayload): Promise<Omit<{
         revenda: {
-            nome: string;
             id: string;
+            nome: string;
             cnpjCpf: string;
             inscricaoEstadual: string | null;
             dataCadastro: Date;
@@ -20,28 +20,28 @@ export declare class UsersService {
             telefoneFixo: string | null;
             telefoneContato: string | null;
             enderecoCompleto: string;
-            aliquotaDesconto: number;
-            comissao: number;
             createdAt: Date;
             updatedAt: Date;
+            aliquotaDesconto: number;
+            comissao: number;
         } | null;
     } & {
+        id: string;
+        nome: string;
+        createdAt: Date;
+        updatedAt: Date;
         email: string;
         senha: string;
-        nome: string;
         telefone: string | null;
         dataNasc: Date | null;
         role: import(".prisma/client").$Enums.UserRole;
         revendaId: string | null;
-        id: string;
-        createdAt: Date;
-        updatedAt: Date;
         refreshToken: string | null;
     }, "senha" | "refreshToken">[]>;
     findMe(userId: string): Promise<Omit<{
         revenda: {
-            nome: string;
             id: string;
+            nome: string;
             cnpjCpf: string;
             inscricaoEstadual: string | null;
             dataCadastro: Date;
@@ -50,22 +50,22 @@ export declare class UsersService {
             telefoneFixo: string | null;
             telefoneContato: string | null;
             enderecoCompleto: string;
-            aliquotaDesconto: number;
-            comissao: number;
             createdAt: Date;
             updatedAt: Date;
+            aliquotaDesconto: number;
+            comissao: number;
         } | null;
     } & {
+        id: string;
+        nome: string;
+        createdAt: Date;
+        updatedAt: Date;
         email: string;
         senha: string;
-        nome: string;
         telefone: string | null;
         dataNasc: Date | null;
         role: import(".prisma/client").$Enums.UserRole;
         revendaId: string | null;
-        id: string;
-        createdAt: Date;
-        updatedAt: Date;
         refreshToken: string | null;
     }, "senha" | "refreshToken">>;
     update(id: string, dto: UpdateUserDto, requester: JwtPayload): Promise<Omit<User, 'senha' | 'refreshToken'>>;
