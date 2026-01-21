@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Prisma, OrcamentoStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOrcamentoDto, OrcamentoStatusDto } from './dto/create-orcamento.dto';
+import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
 
 const STATUS_MAP: Record<OrcamentoStatusDto, OrcamentoStatus> = {
@@ -86,6 +87,23 @@ export class OrcamentosService {
     return orcamentos.map((orcamento) => this.mapOrcamento(orcamento));
   }
 
+  async findPortalComercial() {
+    const orcamentos = await this.prisma.orcamento.findMany({
+      where: {
+        status: {
+          in: [OrcamentoStatus.APROVADO, OrcamentoStatus.PEDIDO_CRIADO_SAP],
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        cliente: true,
+        revenda: true,
+      },
+    });
+
+    return orcamentos.map((orcamento) => this.mapOrcamento(orcamento));
+  }
+
   async findOne(id: string) {
     const orcamento = await this.prisma.orcamento.findUnique({
       where: { id },
@@ -116,6 +134,64 @@ export class OrcamentosService {
       where: { id },
       data: { status: this.mapStatus(status) },
       include: { cliente: true, revenda: true, itens: true },
+    });
+
+    return this.mapOrcamento(updated, true);
+  }
+
+  async update(id: string, dto: UpdateOrcamentoDto) {
+    const orcamento = await this.prisma.orcamento.findUnique({
+      where: { id },
+      include: { itens: true },
+    });
+
+    if (!orcamento) {
+      throw new BadRequestException('Orçamento não encontrado');
+    }
+
+    if (orcamento.status !== OrcamentoStatus.RASCUNHO) {
+      throw new BadRequestException('Apenas orçamentos em rascunho podem ser editados');
+    }
+
+    if (!dto.itens || dto.itens.length === 0) {
+      throw new BadRequestException('Informe ao menos um item');
+    }
+
+    const total = dto.itens.reduce(
+      (acc, item) => acc + item.precoFinal * item.quantidade,
+      0,
+    );
+
+    const updated = await this.prisma.orcamento.update({
+      where: { id },
+      data: {
+        clienteId: dto.clienteId,
+        revendaId: dto.revendaId,
+        comissionado: dto.comissionado ?? false,
+        referenciaPedido: dto.referenciaPedido,
+        observacoes: dto.observacoes,
+        status: dto.status ? this.mapStatus(dto.status) : orcamento.status,
+        total: new Prisma.Decimal(total),
+        itens: {
+          deleteMany: {},
+          create: dto.itens.map((item) => ({
+            itemCode: item.itemCode,
+            itemName: item.itemName,
+            quantidade: item.quantidade,
+            precoCheio: new Prisma.Decimal(item.precoCheio),
+            precoDesconto: new Prisma.Decimal(item.precoDesconto),
+            imposto01: new Prisma.Decimal(item.imposto01),
+            imposto02: new Prisma.Decimal(item.imposto02),
+            imposto03: new Prisma.Decimal(item.imposto03),
+            precoFinal: new Prisma.Decimal(item.precoFinal),
+          })),
+        },
+      },
+      include: {
+        cliente: true,
+        revenda: true,
+        itens: true,
+      },
     });
 
     return this.mapOrcamento(updated, true);

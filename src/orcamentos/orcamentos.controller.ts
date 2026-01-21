@@ -11,6 +11,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { OrcamentosService } from './orcamentos.service';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoStatusDto } from './dto/update-orcamento-status.dto';
+import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { GetUser } from '../common/decorators/get-user.decorator';
@@ -33,9 +34,19 @@ export class OrcamentosController {
     return this.orcamentosService.findAll();
   }
 
+  @Get('portal-comercial')
+  findPortalComercial() {
+    return this.orcamentosService.findPortalComercial();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.orcamentosService.findOne(id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() dto: UpdateOrcamentoDto) {
+    return this.orcamentosService.update(id, dto);
   }
 
   @Patch(':id/status')
