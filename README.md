@@ -38,7 +38,20 @@ Gerar cliente e rodar migração inicial:
 npx prisma generate
 npx prisma migrate dev --name init
 ```
-- A migração inicial insere um administrador padrão: `admin@admin.com` / `123456`.
+
+## Redefinir senha de usuario
+Se voce perdeu a senha e tem acesso ao banco, redefina diretamente no `User.senha` (bcrypt).
+1) Gere o hash bcrypt com o mesmo fator do projeto:
+```bash
+cd krebsfer-api
+node -e "const bcrypt=require('bcrypt'); bcrypt.hash('NOVA_SENHA',10).then(console.log)"
+```
+2) Atualize o usuario no banco:
+```sql
+UPDATE "User"
+SET "senha" = '<HASH_GERADO>', "updatedAt" = NOW()
+WHERE email = 'admin@exemplo.com';
+```
 
 ## Executar a API
 Desenvolvimento (hot-reload):

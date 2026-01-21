@@ -4,10 +4,22 @@ const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const core_1 = require("@nestjs/core");
 const swagger_1 = require("@nestjs/swagger");
+const express_1 = require("express");
 const app_module_1 = require("./app.module");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const configService = app.get(config_1.ConfigService);
+    app.use((req, _res, next) => {
+        if (req.url.startsWith('/v1/catalago')) {
+            req.url = req.url.replace('/v1/catalago', '/v1/catalogo');
+        }
+        else if (req.url.startsWith('/catalago')) {
+            req.url = req.url.replace('/catalago', '/catalogo');
+        }
+        next();
+    });
+    app.use((0, express_1.json)({ limit: '100mb' }));
+    app.use((0, express_1.urlencoded)({ limit: '100mb', extended: true }));
     app.enableCors();
     app.enableVersioning({
         type: common_1.VersioningType.URI,

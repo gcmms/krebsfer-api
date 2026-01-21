@@ -2,12 +2,23 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { json, urlencoded, type NextFunction, type Request, type Response } from 'express';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
 
+  app.use((req: Request, _res: Response, next: NextFunction) => {
+    if (req.url.startsWith('/v1/catalago')) {
+      req.url = req.url.replace('/v1/catalago', '/v1/catalogo');
+    } else if (req.url.startsWith('/catalago')) {
+      req.url = req.url.replace('/catalago', '/catalogo');
+    }
+    next();
+  });
+  app.use(json({ limit: '100mb' }));
+  app.use(urlencoded({ limit: '100mb', extended: true }));
   app.enableCors();
   app.enableVersioning({
     type: VersioningType.URI,
