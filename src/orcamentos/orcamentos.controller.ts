@@ -12,6 +12,7 @@ import { OrcamentosService } from './orcamentos.service';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoStatusDto } from './dto/update-orcamento-status.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
+import { UpdatePedidoSapDto } from './dto/update-pedido-sap.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { GetUser } from '../common/decorators/get-user.decorator';
@@ -52,5 +53,10 @@ export class OrcamentosController {
   @Patch(':id/status')
   updateStatus(@Param('id') id: string, @Body() dto: UpdateOrcamentoStatusDto) {
     return this.orcamentosService.updateStatus(id, dto.status);
+  }
+
+  @Patch(':id/pedido-sap')
+  updatePedidoSap(@Param('id') id: string, @Body() dto: UpdatePedidoSapDto) {
+    return this.orcamentosService.updatePedidoSap(id, dto);
   }
 }

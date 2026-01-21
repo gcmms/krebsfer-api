@@ -3,6 +3,7 @@ import { Prisma, OrcamentoStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOrcamentoDto, OrcamentoStatusDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
+import { UpdatePedidoSapDto } from './dto/update-pedido-sap.dto';
 import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
 
 const STATUS_MAP: Record<OrcamentoStatusDto, OrcamentoStatus> = {
@@ -186,6 +187,31 @@ export class OrcamentosService {
             precoFinal: new Prisma.Decimal(item.precoFinal),
           })),
         },
+      },
+      include: {
+        cliente: true,
+        revenda: true,
+        itens: true,
+      },
+    });
+
+    return this.mapOrcamento(updated, true);
+  }
+
+  async updatePedidoSap(id: string, dto: UpdatePedidoSapDto) {
+    const orcamento = await this.prisma.orcamento.findUnique({
+      where: { id },
+    });
+
+    if (!orcamento) {
+      throw new BadRequestException('Orçamento não encontrado');
+    }
+
+    const updated = await this.prisma.orcamento.update({
+      where: { id },
+      data: {
+        numeroPedidoSap: dto.numeroPedidoSap,
+        status: OrcamentoStatus.PEDIDO_CRIADO_SAP,
       },
       include: {
         cliente: true,
