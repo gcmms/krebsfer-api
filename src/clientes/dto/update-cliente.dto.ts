@@ -40,6 +40,10 @@ export class UpdateClienteDto extends PartialType(CreateClienteDto) {
   enderecoCompleto?: string;
 
   @IsOptional()
+  @IsString()
+  uf?: string;
+
+  @IsOptional()
   @IsArray()
   @IsString({ each: true })
   revendaIds?: string[];

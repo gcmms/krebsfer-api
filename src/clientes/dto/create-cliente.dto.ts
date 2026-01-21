@@ -44,6 +44,10 @@ export class CreateClienteDto {
   @IsNotEmpty()
   enderecoCompleto: string;
 
+  @IsString()
+  @IsNotEmpty()
+  uf: string;
+
   @IsArray()
   @ArrayNotEmpty()
   @IsString({ each: true })

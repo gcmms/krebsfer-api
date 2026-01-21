@@ -60,6 +60,7 @@ model Cliente {
   telefoneContato   String?
 
   enderecoCompleto  String
+  uf                String?
 
   revendas          Revenda[]
   orcamentos        Orcamento[]
