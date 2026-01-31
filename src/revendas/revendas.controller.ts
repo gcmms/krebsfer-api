@@ -36,13 +36,13 @@ export class RevendasController {
   }
 
   @Get()
-  findAll() {
-    return this.revendasService.findAll();
+  findAll(@GetUser() user: JwtPayload) {
+    return this.revendasService.findAll(user);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.revendasService.findOne(id);
+  findOne(@Param('id') id: string, @GetUser() user: JwtPayload) {
+    return this.revendasService.findOne(id, user);
   }
 
   @Roles(UserRole.ADMIN, UserRole.GERENTE_REVENDA)

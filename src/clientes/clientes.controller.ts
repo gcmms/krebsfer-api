@@ -33,13 +33,13 @@ export class ClientesController {
   }
 
   @Get()
-  findAll() {
-    return this.clientesService.findAll();
+  findAll(@GetUser() user: JwtPayload) {
+    return this.clientesService.findAll(user);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.clientesService.findOne(id);
+  findOne(@Param('id') id: string, @GetUser() user: JwtPayload) {
+    return this.clientesService.findOne(id, user);
   }
 
   @Roles(UserRole.ADMIN)

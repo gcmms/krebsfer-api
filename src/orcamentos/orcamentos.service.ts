@@ -1,5 +1,5 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { Prisma, OrcamentoStatus } from '@prisma/client';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
+import { Prisma, OrcamentoStatus, UserRole } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOrcamentoDto, OrcamentoStatusDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
@@ -32,6 +32,9 @@ export class OrcamentosService {
   async create(dto: CreateOrcamentoDto, user: JwtPayload) {
     if (!dto.itens || dto.itens.length === 0) {
       throw new BadRequestException('Informe ao menos um item');
+    }
+    if (dto.itens.some((item) => item.imposto01 <= 0)) {
+      throw new BadRequestException('Nao e permitido salvar orcamento com IPI 0');
     }
 
     const numeroOrcamento = await this.nextNumeroOrcamento();
@@ -76,8 +79,13 @@ export class OrcamentosService {
     return this.mapOrcamento(orcamento, true);
   }
 
-  async findAll() {
+  async findAll(requester: JwtPayload) {
+    const where =
+      requester.role !== UserRole.ADMIN
+        ? { revendaId: requester.revendaId ?? '__no_revenda__' }
+        : undefined;
     const orcamentos = await this.prisma.orcamento.findMany({
+      where,
       orderBy: { createdAt: 'desc' },
       include: {
         cliente: true,
@@ -105,7 +113,24 @@ export class OrcamentosService {
     return orcamentos.map((orcamento) => this.mapOrcamento(orcamento));
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, requester: JwtPayload) {
+    if (requester.role !== UserRole.ADMIN && requester.revendaId) {
+      const orcamento = await this.prisma.orcamento.findFirst({
+        where: { id, revendaId: requester.revendaId },
+        include: {
+          cliente: true,
+          revenda: true,
+          itens: true,
+        },
+      });
+      if (!orcamento) {
+        throw new BadRequestException('Orçamento não encontrado');
+      }
+      return this.mapOrcamento(orcamento, true);
+    }
+    if (requester.role !== UserRole.ADMIN && !requester.revendaId) {
+      throw new ForbiddenException('Você não tem acesso a este orçamento');
+    }
     const orcamento = await this.prisma.orcamento.findUnique({
       where: { id },
       include: {
@@ -156,6 +181,9 @@ export class OrcamentosService {
 
     if (!dto.itens || dto.itens.length === 0) {
       throw new BadRequestException('Informe ao menos um item');
+    }
+    if (dto.itens.some((item) => item.imposto01 <= 0)) {
+      throw new BadRequestException('Nao e permitido salvar orcamento com IPI 0');
     }
 
     const total = dto.itens.reduce(

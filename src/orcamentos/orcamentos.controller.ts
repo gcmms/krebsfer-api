@@ -31,8 +31,8 @@ export class OrcamentosController {
   }
 
   @Get()
-  findAll() {
-    return this.orcamentosService.findAll();
+  findAll(@GetUser() user: JwtPayload) {
+    return this.orcamentosService.findAll(user);
   }
 
   @Get('portal-comercial')
@@ -41,8 +41,8 @@ export class OrcamentosController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.orcamentosService.findOne(id);
+  findOne(@Param('id') id: string, @GetUser() user: JwtPayload) {
+    return this.orcamentosService.findOne(id, user);
   }
 
   @Patch(':id')

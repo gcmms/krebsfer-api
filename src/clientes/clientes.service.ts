@@ -32,14 +32,39 @@ export class ClientesService {
     });
   }
 
-  findAll() {
+  findAll(requester: JwtPayload) {
+    if (requester.role !== UserRole.ADMIN) {
+      if (!requester.revendaId) {
+        throw new ForbiddenException('Você não tem revenda associada');
+      }
+      return this.prisma.cliente.findMany({
+        where: { revendas: { some: { id: requester.revendaId } } },
+        orderBy: { createdAt: 'desc' },
+        include: { revendas: true },
+      });
+    }
+
     return this.prisma.cliente.findMany({
       orderBy: { createdAt: 'desc' },
       include: { revendas: true },
     });
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, requester: JwtPayload) {
+    if (requester.role !== UserRole.ADMIN) {
+      if (!requester.revendaId) {
+        throw new ForbiddenException('Você não tem acesso a este cliente');
+      }
+      const cliente = await this.prisma.cliente.findFirst({
+        where: { id, revendas: { some: { id: requester.revendaId } } },
+        include: { revendas: true },
+      });
+      if (!cliente) {
+        throw new NotFoundException('Cliente não encontrado');
+      }
+      return cliente;
+    }
+
     const cliente = await this.prisma.cliente.findUnique({
       where: { id },
       include: { revendas: true },

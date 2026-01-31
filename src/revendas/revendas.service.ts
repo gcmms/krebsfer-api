@@ -39,14 +39,28 @@ export class RevendasService {
     return revenda;
   }
 
-  async findAll() {
+  async findAll(requester: JwtPayload) {
+    if (requester.role !== UserRole.ADMIN) {
+      if (!requester.revendaId) {
+        return [];
+      }
+      return this.prisma.revenda.findMany({
+        where: { id: requester.revendaId },
+        include: { municipios: true, usuarios: true },
+        orderBy: { createdAt: 'desc' },
+      });
+    }
+
     return this.prisma.revenda.findMany({
       include: { municipios: true, usuarios: true },
       orderBy: { createdAt: 'desc' },
     });
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, requester: JwtPayload) {
+    if (requester.role !== UserRole.ADMIN && requester.revendaId !== id) {
+      throw new ForbiddenException('Você não tem acesso a esta revenda');
+    }
     const revenda = await this.prisma.revenda.findUnique({
       where: { id },
       include: { municipios: true, usuarios: true },
