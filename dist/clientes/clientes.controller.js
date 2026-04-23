@@ -30,11 +30,11 @@ let ClientesController = class ClientesController {
     create(dto, user) {
         return this.clientesService.create(dto, user);
     }
-    findAll() {
-        return this.clientesService.findAll();
+    findAll(user) {
+        return this.clientesService.findAll(user);
     }
-    findOne(id) {
-        return this.clientesService.findOne(id);
+    findOne(id, user) {
+        return this.clientesService.findOne(id, user);
     }
     update(id, dto, user) {
         return this.clientesService.update(id, dto, user);
@@ -55,15 +55,17 @@ __decorate([
 ], ClientesController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ClientesController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], ClientesController.prototype, "findOne", null);
 __decorate([

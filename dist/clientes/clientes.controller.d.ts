@@ -17,10 +17,10 @@ export declare class ClientesController {
             telefoneFixo: string | null;
             telefoneContato: string | null;
             enderecoCompleto: string;
-            createdAt: Date;
-            updatedAt: Date;
             aliquotaDesconto: number;
             comissao: number;
+            createdAt: Date;
+            updatedAt: Date;
         }[];
     } & {
         id: string;
@@ -33,11 +33,11 @@ export declare class ClientesController {
         telefoneFixo: string | null;
         telefoneContato: string | null;
         enderecoCompleto: string;
-        uf: string | null;
         createdAt: Date;
         updatedAt: Date;
+        uf: string | null;
     }>;
-    findAll(): import(".prisma/client").Prisma.PrismaPromise<({
+    findAll(user: JwtPayload): import(".prisma/client").Prisma.PrismaPromise<({
         revendas: {
             id: string;
             nome: string;
@@ -49,10 +49,10 @@ export declare class ClientesController {
             telefoneFixo: string | null;
             telefoneContato: string | null;
             enderecoCompleto: string;
-            createdAt: Date;
-            updatedAt: Date;
             aliquotaDesconto: number;
             comissao: number;
+            createdAt: Date;
+            updatedAt: Date;
         }[];
     } & {
         id: string;
@@ -65,11 +65,11 @@ export declare class ClientesController {
         telefoneFixo: string | null;
         telefoneContato: string | null;
         enderecoCompleto: string;
-        uf: string | null;
         createdAt: Date;
         updatedAt: Date;
+        uf: string | null;
     })[]>;
-    findOne(id: string): Promise<{
+    findOne(id: string, user: JwtPayload): Promise<{
         revendas: {
             id: string;
             nome: string;
@@ -81,10 +81,10 @@ export declare class ClientesController {
             telefoneFixo: string | null;
             telefoneContato: string | null;
             enderecoCompleto: string;
-            createdAt: Date;
-            updatedAt: Date;
             aliquotaDesconto: number;
             comissao: number;
+            createdAt: Date;
+            updatedAt: Date;
         }[];
     } & {
         id: string;
@@ -97,9 +97,9 @@ export declare class ClientesController {
         telefoneFixo: string | null;
         telefoneContato: string | null;
         enderecoCompleto: string;
-        uf: string | null;
         createdAt: Date;
         updatedAt: Date;
+        uf: string | null;
     }>;
     update(id: string, dto: UpdateClienteDto, user: JwtPayload): Promise<{
         revendas: {
@@ -113,10 +113,10 @@ export declare class ClientesController {
             telefoneFixo: string | null;
             telefoneContato: string | null;
             enderecoCompleto: string;
-            createdAt: Date;
-            updatedAt: Date;
             aliquotaDesconto: number;
             comissao: number;
+            createdAt: Date;
+            updatedAt: Date;
         }[];
     } & {
         id: string;
@@ -129,9 +129,9 @@ export declare class ClientesController {
         telefoneFixo: string | null;
         telefoneContato: string | null;
         enderecoCompleto: string;
-        uf: string | null;
         createdAt: Date;
         updatedAt: Date;
+        uf: string | null;
     }>;
     remove(id: string, user: JwtPayload): Promise<{
         message: string;

@@ -41,13 +41,26 @@ let RevendasService = class RevendasService {
         });
         return revenda;
     }
-    async findAll() {
+    async findAll(requester) {
+        if (requester.role !== client_1.UserRole.ADMIN) {
+            if (!requester.revendaId) {
+                return [];
+            }
+            return this.prisma.revenda.findMany({
+                where: { id: requester.revendaId },
+                include: { municipios: true, usuarios: true },
+                orderBy: { createdAt: 'desc' },
+            });
+        }
         return this.prisma.revenda.findMany({
             include: { municipios: true, usuarios: true },
             orderBy: { createdAt: 'desc' },
         });
     }
-    async findOne(id) {
+    async findOne(id, requester) {
+        if (requester.role !== client_1.UserRole.ADMIN && requester.revendaId !== id) {
+            throw new common_1.ForbiddenException('Você não tem acesso a esta revenda');
+        }
         const revenda = await this.prisma.revenda.findUnique({
             where: { id },
             include: { municipios: true, usuarios: true },

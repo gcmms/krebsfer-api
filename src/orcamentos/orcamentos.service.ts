@@ -1,7 +1,9 @@
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { Prisma, OrcamentoStatus, UserRole } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOrcamentoDto, OrcamentoStatusDto } from './dto/create-orcamento.dto';
+import { DeleteOrcamentosDto } from './dto/delete-orcamentos.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 import { UpdatePedidoSapDto } from './dto/update-pedido-sap.dto';
 import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
@@ -111,6 +113,57 @@ export class OrcamentosService {
     });
 
     return orcamentos.map((orcamento) => this.mapOrcamento(orcamento));
+  }
+
+  async removeMany(dto: DeleteOrcamentosDto, requester: JwtPayload) {
+    if (requester.role !== UserRole.ADMIN) {
+      throw new ForbiddenException('Apenas administradores podem excluir orçamentos');
+    }
+
+    const ids = [...new Set(dto.ids.map((id) => id.trim()).filter(Boolean))];
+    if (ids.length === 0) {
+      throw new BadRequestException('Informe ao menos um orçamento para exclusão');
+    }
+
+    const admin = await this.prisma.user.findUnique({
+      where: { id: requester.sub },
+      select: { id: true, senha: true, role: true },
+    });
+
+    if (!admin || admin.role !== UserRole.ADMIN) {
+      throw new ForbiddenException('Administrador não encontrado');
+    }
+
+    const passwordMatches = await bcrypt.compare(dto.senha, admin.senha);
+    if (!passwordMatches) {
+      throw new ForbiddenException('Senha do administrador inválida');
+    }
+
+    const orcamentos = await this.prisma.orcamento.findMany({
+      where: { id: { in: ids } },
+      select: { id: true },
+    });
+
+    if (orcamentos.length !== ids.length) {
+      throw new BadRequestException('Um ou mais orçamentos não foram encontrados');
+    }
+
+    await this.prisma.$transaction([
+      this.prisma.orcamentoItem.deleteMany({
+        where: { orcamentoId: { in: ids } },
+      }),
+      this.prisma.orcamento.deleteMany({
+        where: { id: { in: ids } },
+      }),
+    ]);
+
+    return {
+      deletedCount: ids.length,
+      message:
+        ids.length === 1
+          ? 'Orçamento excluído com sucesso'
+          : 'Orçamentos excluídos com sucesso',
+    };
   }
 
   async findOne(id: string, requester: JwtPayload) {

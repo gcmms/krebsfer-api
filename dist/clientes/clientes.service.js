@@ -38,13 +38,36 @@ let ClientesService = class ClientesService {
             include: { revendas: true },
         });
     }
-    findAll() {
+    findAll(requester) {
+        if (requester.role !== client_1.UserRole.ADMIN) {
+            if (!requester.revendaId) {
+                throw new common_1.ForbiddenException('Você não tem revenda associada');
+            }
+            return this.prisma.cliente.findMany({
+                where: { revendas: { some: { id: requester.revendaId } } },
+                orderBy: { createdAt: 'desc' },
+                include: { revendas: true },
+            });
+        }
         return this.prisma.cliente.findMany({
             orderBy: { createdAt: 'desc' },
             include: { revendas: true },
         });
     }
-    async findOne(id) {
+    async findOne(id, requester) {
+        if (requester.role !== client_1.UserRole.ADMIN) {
+            if (!requester.revendaId) {
+                throw new common_1.ForbiddenException('Você não tem acesso a este cliente');
+            }
+            const cliente = await this.prisma.cliente.findFirst({
+                where: { id, revendas: { some: { id: requester.revendaId } } },
+                include: { revendas: true },
+            });
+            if (!cliente) {
+                throw new common_1.NotFoundException('Cliente não encontrado');
+            }
+            return cliente;
+        }
         const cliente = await this.prisma.cliente.findUnique({
             where: { id },
             include: { revendas: true },
