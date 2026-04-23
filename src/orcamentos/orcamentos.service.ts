@@ -31,6 +31,41 @@ export class OrcamentosService {
     return `ORC-${year}-${seq}`;
   }
 
+  private async validateClienteRevenda(clienteId: string, revendaId: string) {
+    const cliente = await this.prisma.cliente.findFirst({
+      where: {
+        id: clienteId,
+        revendas: {
+          some: { id: revendaId },
+        },
+      },
+      select: { id: true },
+    });
+
+    if (!cliente) {
+      throw new BadRequestException(
+        'Cliente selecionado nao esta vinculado a revenda informada',
+      );
+    }
+  }
+
+  private async validateComissao(revendaId: string, comissionado?: boolean) {
+    const revenda = await this.prisma.revenda.findUnique({
+      where: { id: revendaId },
+      select: { id: true, comissao: true },
+    });
+
+    if (!revenda) {
+      throw new BadRequestException('Revenda nao encontrada');
+    }
+
+    if (comissionado && Number(revenda.comissao ?? 0) <= 0) {
+      throw new BadRequestException(
+        'A revenda selecionada nao possui comissao cadastrada',
+      );
+    }
+  }
+
   async create(dto: CreateOrcamentoDto, user: JwtPayload) {
     if (!dto.itens || dto.itens.length === 0) {
       throw new BadRequestException('Informe ao menos um item');
@@ -38,6 +73,8 @@ export class OrcamentosService {
     if (dto.itens.some((item) => item.imposto01 <= 0)) {
       throw new BadRequestException('Nao e permitido salvar orcamento com IPI 0');
     }
+    await this.validateClienteRevenda(dto.clienteId, dto.revendaId);
+    await this.validateComissao(dto.revendaId, dto.comissionado);
 
     const numeroOrcamento = await this.nextNumeroOrcamento();
     const total = dto.itens.reduce(
@@ -238,6 +275,8 @@ export class OrcamentosService {
     if (dto.itens.some((item) => item.imposto01 <= 0)) {
       throw new BadRequestException('Nao e permitido salvar orcamento com IPI 0');
     }
+    await this.validateClienteRevenda(dto.clienteId, dto.revendaId);
+    await this.validateComissao(dto.revendaId, dto.comissionado);
 
     const total = dto.itens.reduce(
       (acc, item) => acc + item.precoFinal * item.quantidade,
