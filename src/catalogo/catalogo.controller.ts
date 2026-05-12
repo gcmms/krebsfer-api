@@ -4,16 +4,15 @@ import { CatalogoService } from './catalogo.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { ImportCatalogoDto } from './dto/import-catalogo.dto';
-import { Roles } from '../common/decorators/roles.decorator';
-import { UserRole } from '@prisma/client';
+import { CatalogoImportTokenGuard } from './guards/catalogo-import-token.guard';
 
 @ApiTags('catalogo')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller({ path: ['catalogo', 'catalago'], version: ['1', VERSION_NEUTRAL] })
 export class CatalogoController {
   constructor(private readonly catalogoService: CatalogoService) {}
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll(
     @Query('search') search?: string,
@@ -30,7 +29,7 @@ export class CatalogoController {
     });
   }
 
-  @Roles(UserRole.ADMIN)
+  @UseGuards(CatalogoImportTokenGuard)
   @Post('import')
   @ApiBody({ type: ImportCatalogoDto })
   importCatalogo(@Body() dto: ImportCatalogoDto) {

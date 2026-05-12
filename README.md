@@ -30,6 +30,7 @@ JWT_REFRESH_SECRET="supersecretrefresh"
 JWT_EXPIRES_IN="15m"
 JWT_REFRESH_EXPIRES_IN="7d"
 SALT_ROUNDS=10
+CATALOGO_IMPORT_TOKEN="troque-este-token-compartilhado"
 ```
 
 ## Prisma
@@ -73,6 +74,7 @@ npm start
 - Auth: `/v1/auth/register`, `/v1/auth/login`, `/v1/auth/refresh`
 - Users: CRUD completo com restrições por role (ADMIN / GERENTE_REVENDA), `/v1/users/me`
 - Revendas: CRUD com municípios de atuação e vinculação de usuários
+- Catalogo import: `/v1/catalogo/import` usa `Authorization: Bearer <CATALOGO_IMPORT_TOKEN>` para integracao com o migration service.
 
 Roles oficiais: `ADMIN`, `GERENTE_REVENDA`, `USUARIO_REVENDA`.
 
