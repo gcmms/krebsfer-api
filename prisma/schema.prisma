@@ -179,3 +179,12 @@ model CatalogoPeca {
 
   @@index([categoriaNome, subcategoriaNome])
 }
+
+model CatalogoImportStatus {
+  id                     String   @id @default("catalogo")
+  lastSuccessfulImportAt DateTime
+  totalItens             Int
+
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @default(now()) @updatedAt
+}

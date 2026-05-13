@@ -5,7 +5,6 @@ const SRC = path.join(__dirname, "..", "prisma");
 const DEST = path.join(__dirname, "..", "dist", "prisma");
 
 async function copyPrisma() {
-  await fs.rm(DEST, { recursive: true, force: true });
   await fs.cp(SRC, DEST, { recursive: true });
 }
 

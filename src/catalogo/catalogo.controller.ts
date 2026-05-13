@@ -13,6 +13,12 @@ export class CatalogoController {
   constructor(private readonly catalogoService: CatalogoService) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('status')
+  getStatus() {
+    return this.catalogoService.getStatus();
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll(
     @Query('search') search?: string,

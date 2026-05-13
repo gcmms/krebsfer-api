@@ -7,13 +7,13 @@ export declare class RevendasController {
     constructor(revendasService: RevendasService);
     create(dto: CreateRevendaDto, user: JwtPayload): Promise<{
         municipios: {
-            id: string;
             nome: string;
             revendaId: string;
+            id: string;
         }[];
     } & {
-        id: string;
         nome: string;
+        id: string;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -29,26 +29,26 @@ export declare class RevendasController {
     }>;
     findAll(user: JwtPayload): Promise<({
         municipios: {
-            id: string;
             nome: string;
             revendaId: string;
+            id: string;
         }[];
         usuarios: {
-            id: string;
-            nome: string;
-            createdAt: Date;
-            updatedAt: Date;
-            revendaId: string | null;
             email: string;
             senha: string;
+            nome: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
+            revendaId: string | null;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
             refreshToken: string | null;
         }[];
     } & {
-        id: string;
         nome: string;
+        id: string;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -64,26 +64,26 @@ export declare class RevendasController {
     })[]>;
     findOne(id: string, user: JwtPayload): Promise<{
         municipios: {
-            id: string;
             nome: string;
             revendaId: string;
+            id: string;
         }[];
         usuarios: {
-            id: string;
-            nome: string;
-            createdAt: Date;
-            updatedAt: Date;
-            revendaId: string | null;
             email: string;
             senha: string;
+            nome: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
+            revendaId: string | null;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
             refreshToken: string | null;
         }[];
     } & {
-        id: string;
         nome: string;
+        id: string;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -99,26 +99,26 @@ export declare class RevendasController {
     }>;
     update(id: string, dto: UpdateRevendaDto, user: JwtPayload): Promise<{
         municipios: {
-            id: string;
             nome: string;
             revendaId: string;
+            id: string;
         }[];
         usuarios: {
-            id: string;
-            nome: string;
-            createdAt: Date;
-            updatedAt: Date;
-            revendaId: string | null;
             email: string;
             senha: string;
+            nome: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
+            revendaId: string | null;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
             refreshToken: string | null;
         }[];
     } & {
-        id: string;
         nome: string;
+        id: string;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;

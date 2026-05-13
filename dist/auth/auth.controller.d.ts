@@ -9,45 +9,45 @@ export declare class AuthController {
         accessToken: string;
         refreshToken: string;
         user: {
-            id: string;
-            nome: string;
-            createdAt: Date;
-            updatedAt: Date;
             email: string;
+            nome: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
             revendaId: string | null;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
         };
     }>;
     login(dto: LoginDto): Promise<{
         accessToken: string;
         refreshToken: string;
         user: {
-            id: string;
-            nome: string;
-            createdAt: Date;
-            updatedAt: Date;
             email: string;
+            nome: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
             revendaId: string | null;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
         };
     }>;
     refresh(user: JwtPayloadWithRefresh): Promise<{
         accessToken: string;
         refreshToken: string;
         user: {
-            id: string;
-            nome: string;
-            createdAt: Date;
-            updatedAt: Date;
             email: string;
+            nome: string;
             telefone: string | null;
             dataNasc: Date | null;
             role: import(".prisma/client").$Enums.UserRole;
             revendaId: string | null;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
         };
     }>;
 }

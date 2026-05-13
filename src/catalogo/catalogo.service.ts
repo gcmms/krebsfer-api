@@ -43,6 +43,20 @@ export class CatalogoService {
     }));
   }
 
+  async getStatus() {
+    const [total, importStatus] = await Promise.all([
+      this.prisma.catalogoPeca.count(),
+      this.prisma.catalogoImportStatus.findUnique({
+        where: { id: 'catalogo' },
+      }),
+    ]);
+
+    return {
+      total,
+      lastUpdatedAt: importStatus?.lastSuccessfulImportAt ?? null,
+    };
+  }
+
   async importCatalogo(itens: ImportCatalogoItemDto[]) {
     const normalized = itens.map((item) => ({
       ...item,
@@ -105,6 +119,19 @@ export class CatalogoService {
         },
       });
     }
+
+    await this.prisma.catalogoImportStatus.upsert({
+      where: { id: 'catalogo' },
+      create: {
+        id: 'catalogo',
+        lastSuccessfulImportAt: new Date(),
+        totalItens: normalized.length,
+      },
+      update: {
+        lastSuccessfulImportAt: new Date(),
+        totalItens: normalized.length,
+      },
+    });
 
     return {
       imported: normalized.length,

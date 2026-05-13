@@ -7,8 +7,8 @@ export declare class ClientesController {
     constructor(clientesService: ClientesService);
     create(dto: CreateClienteDto, user: JwtPayload): Promise<{
         revendas: {
-            id: string;
             nome: string;
+            id: string;
             cnpjCpf: string;
             inscricaoEstadual: string | null;
             dataCadastro: Date;
@@ -23,8 +23,8 @@ export declare class ClientesController {
             updatedAt: Date;
         }[];
     } & {
-        id: string;
         nome: string;
+        id: string;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -39,8 +39,8 @@ export declare class ClientesController {
     }>;
     findAll(user: JwtPayload): import(".prisma/client").Prisma.PrismaPromise<({
         revendas: {
-            id: string;
             nome: string;
+            id: string;
             cnpjCpf: string;
             inscricaoEstadual: string | null;
             dataCadastro: Date;
@@ -55,8 +55,8 @@ export declare class ClientesController {
             updatedAt: Date;
         }[];
     } & {
-        id: string;
         nome: string;
+        id: string;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -71,8 +71,8 @@ export declare class ClientesController {
     })[]>;
     findOne(id: string, user: JwtPayload): Promise<{
         revendas: {
-            id: string;
             nome: string;
+            id: string;
             cnpjCpf: string;
             inscricaoEstadual: string | null;
             dataCadastro: Date;
@@ -87,8 +87,8 @@ export declare class ClientesController {
             updatedAt: Date;
         }[];
     } & {
-        id: string;
         nome: string;
+        id: string;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
@@ -103,8 +103,8 @@ export declare class ClientesController {
     }>;
     update(id: string, dto: UpdateClienteDto, user: JwtPayload): Promise<{
         revendas: {
-            id: string;
             nome: string;
+            id: string;
             cnpjCpf: string;
             inscricaoEstadual: string | null;
             dataCadastro: Date;
@@ -119,8 +119,8 @@ export declare class ClientesController {
             updatedAt: Date;
         }[];
     } & {
-        id: string;
         nome: string;
+        id: string;
         cnpjCpf: string;
         inscricaoEstadual: string | null;
         dataCadastro: Date;
